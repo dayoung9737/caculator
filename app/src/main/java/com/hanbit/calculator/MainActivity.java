@@ -7,12 +7,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hanbit.calculator.domain.CalcDTO;
+import com.hanbit.calculator.service.CalcService;
+import com.hanbit.calculator.service.CalcServiceImpl;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{//필드 instance 변수로
     //
     EditText etNum1, etNum2;
     Button btPlus,btMinus,btMultl,btDivied,btMod,btEqual;
     TextView tvResult ;
     int result;
+    CalcService service;
+    CalcDTO cal;
+
+
+
+
     //클래스안에는 메소드
 
     @Override //다형성
@@ -36,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btMultl.setOnClickListener(this);
         btEqual.setOnClickListener(this);
         btMod.setOnClickListener(this);
+        service= new CalcServiceImpl();
+        cal = new CalcDTO();
+
 
 
     //메소드 안
@@ -46,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int num1 = Integer.parseInt(String.valueOf(etNum1.getText()));
         int num2 = Integer.parseInt(String.valueOf(etNum2.getText()));
 
+        cal.setNum1(num1);
+        cal.setNum2(num2);
+
         //String 타입인데 getText 타입으로 들어옴
         //et.Num1.getText().toString -> String 타입으로 변환
         //num1은 숫자니까 String 에서 int 로 변환 후 alt +enter .parse int로
@@ -54,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.btPlus:
-                result = num1 +num2 ;
+                result = service.plus(cal);
                 break;
 
             case R.id.btMinus:
